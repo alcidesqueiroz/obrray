@@ -1,0 +1,32 @@
+{
+  "name": "wololo",
+  "version": "1.0.0",
+  "description": "Convert between objects and arrays in many different ways. Wololoooo!",
+  "license": "MIT",
+  "repository": "alcidesqueiroz/wololo",
+  "author": {
+    "name": "Alcides Queiroz",
+    "email": "alcidesqueiroz@gmail.com",
+    "url": "alcidesqueiroz.github.com"
+  },
+  "engines": {
+    "node": ">=4.8.0"
+  },
+  "scripts": {
+    "test": "tap test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "object",
+    "array",
+    "conversion"
+  ],
+  "devDependencies": {
+    "tap": "^11.1.1"
+  },
+  "dependencies": {
+    "type-detect": "^4.0.8"
+  }
+}
