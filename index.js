@@ -69,6 +69,42 @@ const toObjectStrategies = {
   }
 };
 
+const toArrayStrategies = {
+  fromKeys(entries) {
+    return entries.map(item => item[0]);
+  },
+
+  withInvertedKeyAndValuePairs(entries) {
+    return entries.map(item => [item[1], item[0]]);
+  },
+
+  fromMapper(entries, mapper) {
+    let mappedItem;
+    const arr = [];
+    const props = entries.map(item => toKeyValueObject(item));
+
+    for(let i = 0; i < props.length; i++) {
+      mappedItem = mapper(props[i], arr);
+
+      if(mappedItem !== undefined) {
+        arr.push(mappedItem);
+      }
+    }
+
+    return arr;
+  },
+
+  withKeyAndValueObjects(entries, opts) {
+    const { keyProperty = 'key', valueProperty = 'value' } = isObject(opts) ? opts : {};
+
+    return entries.map(item => ({ [keyProperty]: item[0], [valueProperty]: item[1] }));
+  }
+};
+
+function toKeyValueObject(arr) {
+  return { key: arr[0], value: arr[1] };
+}
+
 function validateKeyValuePair(arr, opts = null) {
   // If custom key-value indexes are passed, we need to adapt our minimum length checking
   const minimumItemLengthAllowed = isObject(opts) ?
@@ -127,6 +163,31 @@ module.exports = {
     if(hasMoreThanOneOption(opts, toArrayMappingOptions)) {
       throw new Error('Only one mapping option can be passed at a time.');
     }
+
+    let entries = Object.entries(obj);
+    if(opts.sorter) {
+      const sorterWrapper = (a, b) => opts.sorter(toKeyValueObject(a), toKeyValueObject(b));
+      entries = entries.sort(sorterWrapper);
+    }
+
+    // Checks if only one mapping option was supplied at a time
+    if(hasMoreThanOneOption(opts, toObjectMappingOptions)) {
+      throw new Error('Only one mapping option can be passed at a time.');
+    }
+
+    if(opts.toKeyAndValuePairs) return entries;
+
+    if(opts.useKeys) return toArrayStrategies.fromKeys(entries);
+
+    if(opts.toInvertedKeyAndValuePairs) return toArrayStrategies.withInvertedKeyAndValuePairs(entries);
+
+    if(opts.mapper) return toArrayStrategies.fromMapper(entries, opts.mapper);
+
+    if(opts.toKeyAndValueObjects) {
+      return toArrayStrategies.withKeyAndValueObjects(entries, opts.toKeyAndValueObjects);
+    }
+
+    return entries.map(item => item[1]);
   },
 
   toObject(arr, opts = {}) {
