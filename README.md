@@ -1,4 +1,4 @@
-# wololo [![Build status](https://travis-ci.org/alcidesqueiroz/wololo.svg?branch=master)](https://travis-ci.org/alcidesqueiroz/wololo)
+# obrray [![Build status](https://travis-ci.org/alcidesqueiroz/obrray.svg?branch=master)](https://travis-ci.org/alcidesqueiroz/obrray)
 
 > Convert between objects and arrays in many different ways. Wololoooo!
 
@@ -8,13 +8,13 @@
 
 With npm:
 ```
-$ npm install --save wololo
+$ npm install --save obrray
 ```
 
 With Yarn:
 
 ```
-$ yarn add wololo
+$ yarn add obrray
 ```
 
 ## Usage
