@@ -13,6 +13,12 @@ const toArrayMappingOptions = [
   'toKeyAndValueObjects',
   'mapper'];
 
+function objectToEntries(obj) {
+  if (Object.entries) return Object.entries(obj);
+
+  return Object.keys(obj).map(key => [key, obj[key]]);
+}
+
 function isArray(a) {
   return a && a.constructor === Array;
 }
@@ -50,7 +56,7 @@ function isEmptyObject(obj) {
 }
 
 function hasMoreThanOneOption(optObj, allowedOpts) {
-  const enabledMappingOptions = Object.entries(optObj).filter(entry => entry[1]);
+  const enabledMappingOptions = objectToEntries(optObj).filter(entry => entry[1]);
   if (enabledMappingOptions.length <= 1) return false;
 
   let optionsCount = 0;
@@ -164,7 +170,7 @@ module.exports = {
       throw new Error('Only one mapping option can be passed at a time.');
     }
 
-    let entries = Object.entries(obj);
+    let entries = objectToEntries(obj);
     if (opts.sorter) {
       const sorterWrapper = (a, b) => opts.sorter(toKeyValueObject(a), toKeyValueObject(b));
       entries = entries.sort(sorterWrapper);
