@@ -102,6 +102,8 @@ tap.deepEqual(obrray.toObject(
     ['nickname', 'lx']
   ], { mapper: () => {} }), {});
 
+// Passing an invalid option returns the default output
+tap.deepEqual(obrray.toObject([11, 22, 33], { someInvalidOption: true }), { 0: 11, 1: 22, 2: 33 });
 
 
 /**
@@ -217,6 +219,14 @@ tap.deepEqual(obrray.toArray(
     middleName: 'Andolini',
     surname: 'Corleone'
   }, { mapper: () => {} }), []);
+
+// Passing an invalid option returns the default output
+tap.deepEqual(obrray.toArray({
+  name: 'Vito',
+  middleName: 'Andolini',
+  surname: 'Corleone'
+}, { someInvalidOption: true }), ['Vito', 'Andolini', 'Corleone']);
+
 
 
 /**

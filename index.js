@@ -51,10 +51,6 @@ function validateKey(key, obj) {
   }
 }
 
-function isEmptyObject(obj) {
-  return Object.keys(obj).length === 0 && obj.constructor === Object;
-}
-
 function hasMoreThanOneOption(optObj, allowedOpts) {
   const enabledMappingOptions = objectToEntries(optObj).filter(entry => entry[1]);
   if (enabledMappingOptions.length <= 1) return false;
@@ -205,8 +201,6 @@ module.exports = {
         'Only arrays are accepted.');
     }
 
-    if (isEmptyObject(opts)) return Object.assign({}, arr);
-
     // Checks if only one mapping option was supplied at a time
     if (hasMoreThanOneOption(opts, toObjectMappingOptions)) {
       throw new Error('Only one mapping option can be passed at a time.');
@@ -227,5 +221,7 @@ module.exports = {
     if (opts.mapper) {
       return toObjectStrategies.fromMapper(arr, opts.mapper);
     }
+
+    return Object.assign({}, arr);
   }
 };
