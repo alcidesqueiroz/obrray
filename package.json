@@ -10,7 +10,7 @@
     "url": "alcidesqueiroz.github.com"
   },
   "engines": {
-    "node": ">=4.8.0"
+    "node": ">=6"
   },
   "scripts": {
     "test": "eslint index.js && tap test.js"

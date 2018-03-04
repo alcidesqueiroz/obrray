@@ -1,5 +1,3 @@
-'use strict';
-
 const tap = require('tap');
 const obrray = require('./index');
 
@@ -279,7 +277,7 @@ function getPairs(arr) {
     const pairs = [];
 
     for (let i = 0; i < arr.length; i++){
-      for (var j = i + 1; j < arr.length; j++){
+      for (let j = i + 1; j < arr.length; j++){
         pairs.push([arr[i], arr[j]]);
       }
     }
