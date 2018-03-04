@@ -71,8 +71,8 @@ tap.deepEqual(obrray.toObject(
     ['planet', 'Betelgeuse Seven', [111]],
     ['nickname', 12, false, 'lx', [27, 1], 147, 98]
   ], { mapper: (item) => {
-      for(let i = 1; i < item.length; i++) {
-        if(typeof item[i] !== 'string') continue;
+      for (let i = 1; i < item.length; i++) {
+        if (typeof item[i] !== 'string') continue;
 
         return { key: item[0], value: item[i] };
       }
@@ -86,8 +86,8 @@ tap.deepEqual(obrray.toObject(
     ['planet', 'Betelgeuse Seven', [111]],
     ['nickname', 12, false, 'lx', [27, 1], 147, 98]
   ], { mapper: (item, targetObj) => {
-      for(let i = 1; i < item.length; i++) {
-        if(typeof item[i] !== 'string') continue;
+      for (let i = 1; i < item.length; i++) {
+        if (typeof item[i] !== 'string') continue;
 
         targetObj[item[0]] = item[i];
       }
@@ -277,7 +277,7 @@ function getPairs(arr) {
     const pairs = [];
 
     for (let i = 0; i < arr.length; i++){
-      for(var j = i + 1; j < arr.length; j++){
+      for (var j = i + 1; j < arr.length; j++){
         pairs.push([arr[i], arr[j]]);
       }
     }

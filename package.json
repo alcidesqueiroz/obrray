@@ -13,8 +13,7 @@
     "node": ">=4.8.0"
   },
   "scripts": {
-    "lint": "eslint index.js",
-    "test": "tap test.js"
+    "test": "eslint index.js && tap test.js"
   },
   "files": [
     "index.js"
