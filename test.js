@@ -11,6 +11,10 @@ tap.deepEqual(obrray.toObject([123]), { 0: 123 });
 tap.deepEqual(obrray.toObject([11, 22, 33]), { 0: 11, 1: 22, 2: 33 });
 tap.deepEqual(obrray.toObject([[11, 22], [33, 44], [55, 66]]), { 0: [11, 22], 1: [33, 44], 2: [55, 66] });
 
+// Passing an object should return itself...
+const obj = { test: 123 };
+tap.equal(obrray.toObject(obj), obj);
+
 // Using each array item both as key and value of the target object
 tap.deepEqual(obrray.toObject([11, 22, 33], { sameKeyAndValue: true }), { 11: 11, 22: 22, 33: 33 });
 
@@ -100,124 +104,128 @@ tap.deepEqual(obrray.toObject(
 
 
 
-/**
- * Object to array
- */
+// /**
+//  * Object to array
+//  */
+//
+// // Without options
+// tap.deepEqual(obrray.toArray({}), []);
+// tap.deepEqual(obrray.toArray({ whatever: 123 }), [123]);
+// tap.deepEqual(obrray.toArray({ name: 'Vito', surname: 'Corleone' }), ['Vito', 'Corleone']);
+// tap.deepEqual(obrray.toArray({ 2: 'Corleone', 1: 'Andolini', 0: 'Vito' }), ['Vito', 'Andolini', 'Corleone']);
+// tap.deepEqual(obrray.toArray({ foo: 'bar', 2: 'Corleone', 1: 'Andolini', 0: 'Vito', bar: 'foo' }),
+//   ['Vito', 'Andolini', 'Corleone', 'bar', 'foo']);
 
-// Without options
-tap.deepEqual(obrray.toArray({}), []);
-tap.deepEqual(obrray.toArray({ whatever: 123 }), [123]);
-tap.deepEqual(obrray.toArray({ name: 'Vito', surname: 'Corleone' }), ['Vito', 'Corleone']);
-tap.deepEqual(obrray.toArray({ 2: 'Corleone', 1: 'Andolini', 0: 'Vito' }), ['Vito', 'Andolini', 'Corleone']);
-tap.deepEqual(obrray.toArray({ foo: 'bar', 2: 'Corleone', 1: 'Andolini', 0: 'Vito', bar: 'foo' }),
-  ['Vito', 'Andolini', 'Corleone', 'bar', 'foo']);
+// Passing an array should return itself...
+// const arr = [11, 22, 33];
+// tap.equal(obrray.toArray(arr), arr);
 
-// Using property keys instead of values for each item
-tap.deepEqual(obrray.toArray({ name: 'Vito', surname: 'Corleone' }, { useKeys: true }),
-  ['name', 'surname']);
-
-// Converting to an array of key and value pairs
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { toKeyAndValuePairs: true }),
-  [['name', 'Vito'], ['middleName', 'Andolini'], ['surname', 'Corleone']]);
-
-// Converting to an array of inverted key and value pairs
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { toInvertedKeyAndValuePairs: true }),
-  [['Vito', 'name'], ['Andolini', 'middleName'], ['Corleone', 'surname']]);
-
-// Converting to an array of key and value objects (with default property names)
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { toKeyAndValueObjects: true }),
-  [{ key: 'name', value: 'Vito' }, { key: 'middleName', value: 'Andolini' }, { key: 'surname', value: 'Corleone' }]);
-
-// Converting to an array of key and value objects (with custom property names)
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { toKeyAndValueObjects: { keyProperty: 'k', valueProperty: 'v' } }),
-  [{ k: 'name', v: 'Vito' }, { k: 'middleName', v: 'Andolini' }, { k: 'surname', v: 'Corleone' }]);
-
-// Using a sorter
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { sorter: (a, b) => a.value.localeCompare(b.value) }),
-  ['Andolini', 'Corleone', 'Vito']);
-
-// Using a sorter along with other option
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { sorter: (a, b) => a.value.localeCompare(b.value), toKeyAndValuePairs: true }),
-  [['middleName', 'Andolini'], ['surname', 'Corleone'], ['name', 'Vito']]);
-
-// Using a custom mapper
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { mapper: (item) => `The ${item.key} is "${item.value}"` }),
-  ['The name is "Vito"', 'The middleName is "Andolini"', 'The surname is "Corleone"']);
-
-// Using a custom mapper  (changing the target array from within the callback)
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  },
-  {
-    mapper: (item, targetArr) => {
-      targetArr.push(`The ${item.key} is "${item.value}"`);
-      targetArr.push('...an additional item...');
-    }
-  }),
-  [
-    'The name is "Vito"',
-    '...an additional item...',
-    'The middleName is "Andolini"',
-    '...an additional item...',
-    'The surname is "Corleone"',
-    '...an additional ite...m'
-  ]);
-
-// Using a no-op mapper
-tap.deepEqual(obrray.toArray(
-  {
-    name: 'Vito',
-    middleName: 'Andolini',
-    surname: 'Corleone'
-  }, { mapper: () => {} }), []);
-
-
-/**
- * Errors
- */
-
+//
+// // Using property keys instead of values for each item
+// tap.deepEqual(obrray.toArray({ name: 'Vito', surname: 'Corleone' }, { useKeys: true }),
+//   ['name', 'surname']);
+//
+// // Converting to an array of key and value pairs
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { toKeyAndValuePairs: true }),
+//   [['name', 'Vito'], ['middleName', 'Andolini'], ['surname', 'Corleone']]);
+//
+// // Converting to an array of inverted key and value pairs
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { toInvertedKeyAndValuePairs: true }),
+//   [['Vito', 'name'], ['Andolini', 'middleName'], ['Corleone', 'surname']]);
+//
+// // Converting to an array of key and value objects (with default property names)
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { toKeyAndValueObjects: true }),
+//   [{ key: 'name', value: 'Vito' }, { key: 'middleName', value: 'Andolini' }, { key: 'surname', value: 'Corleone' }]);
+//
+// // Converting to an array of key and value objects (with custom property names)
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { toKeyAndValueObjects: { keyProperty: 'k', valueProperty: 'v' } }),
+//   [{ k: 'name', v: 'Vito' }, { k: 'middleName', v: 'Andolini' }, { k: 'surname', v: 'Corleone' }]);
+//
+// // Using a sorter
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { sorter: (a, b) => a.value.localeCompare(b.value) }),
+//   ['Andolini', 'Corleone', 'Vito']);
+//
+// // Using a sorter along with other option
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { sorter: (a, b) => a.value.localeCompare(b.value), toKeyAndValuePairs: true }),
+//   [['middleName', 'Andolini'], ['surname', 'Corleone'], ['name', 'Vito']]);
+//
+// // Using a custom mapper
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { mapper: (item) => `The ${item.key} is "${item.value}"` }),
+//   ['The name is "Vito"', 'The middleName is "Andolini"', 'The surname is "Corleone"']);
+//
+// // Using a custom mapper  (changing the target array from within the callback)
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   },
+//   {
+//     mapper: (item, targetArr) => {
+//       targetArr.push(`The ${item.key} is "${item.value}"`);
+//       targetArr.push('...an additional item...');
+//     }
+//   }),
+//   [
+//     'The name is "Vito"',
+//     '...an additional item...',
+//     'The middleName is "Andolini"',
+//     '...an additional item...',
+//     'The surname is "Corleone"',
+//     '...an additional ite...m'
+//   ]);
+//
+// // Using a no-op mapper
+// tap.deepEqual(obrray.toArray(
+//   {
+//     name: 'Vito',
+//     middleName: 'Andolini',
+//     surname: 'Corleone'
+//   }, { mapper: () => {} }), []);
+//
+//
+// /**
+//  * Errors
+//  */
+//
 const toObjectMappingOptions = [
   'keyAndValuePairs',
   'invertedKeyAndValuePairs',
-  'keyAndValuePairs',
   'keyAndValueObjects',
   'mapper'];
 
@@ -229,7 +237,7 @@ const toArrayMappingOptions = [
   'mapper'];
 
 // Accepted types checking
-[true, 15, NaN, 'whatever'].forEach((testValue) => {
+[true, 15, 'whatever', undefined, null].forEach((testValue) => {
   tap.throws(() => obrray.toArray(testValue),
     new Error('The first argument supplied for toArray() method is invalid. Only objects are accepted.'));
 
@@ -243,7 +251,22 @@ getPairs(toObjectMappingOptions).forEach((optionsPair) => {
     new Error('Only one mapping option can be passed at a time.'));
 });
 
+// Invalid key checking
+[true, {}, [], undefined, null].forEach((testValue) => {
+  tap.throws(() => obrray.toObject([testValue], { sameKeyAndValue: true }),
+    new Error('The array supplied has an invalid key (only number and string are allowed).'));
+});
 
+// Duplicate keys checking
+tap.throws(() => obrray.toObject([11, 11, 22], { sameKeyAndValue: true }),
+  new Error('The array supplied has duplicate keys.'));
+
+// Valid key-value array checking
+tap.throws(() => obrray.toObject([[1, 11], [2], [3, 33]], { keyAndValuePairs: true }),
+  new Error('Invalid array supplied. Expected an array of key-value pairs.'));
+
+tap.throws(() => obrray.toObject([[1, 11]], { keyAndValuePairs: { valueIndex: 10 } }),
+  new Error('Invalid array supplied. Expected an array of key-value pairs.'));
 
 function getPairs(arr) {
     const pairs = [];
