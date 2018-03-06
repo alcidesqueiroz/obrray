@@ -360,7 +360,7 @@ obrray.toArray(
 //      '...an additional item...',
 //      'The surname is "Corleone"',
 //      '...an additional item...'
-//    ]);
+//    ]
 ```
 
 ## Author
@@ -368,8 +368,8 @@ obrray.toArray(
 Alcides Queiroz Aguiar
 
 -	E-mail: alcidesqueiroz <at> gmail
--	Twitter: [@alcidesqueiroz](http://www.twitter.com/alcidesqueiroz)
 -	Stack Overflow: [http://is.gd/aqanso](http://stackoverflow.com/users/1295666/alcides-queiroz-aguiar)
+-	Medium: [@alcidesqueiroz](https://medium.com/@alcidesqueiroz)
 
 ## License
 
