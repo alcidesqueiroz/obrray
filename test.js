@@ -286,8 +286,8 @@ tap.throws(() => obrray.toObject([[1, 11]], { keyAndValuePairs: { valueIndex: 10
 function getPairs(arr) {
     const pairs = [];
 
-    for (let i = 0; i < arr.length; i++){
-      for (let j = i + 1; j < arr.length; j++){
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
         pairs.push([arr[i], arr[j]]);
       }
     }

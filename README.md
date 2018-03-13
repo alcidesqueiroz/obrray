@@ -168,8 +168,8 @@ obrray.toObject(
     ['nickname', 12, false, 'lx', [27, 1], 147, 98]
   ], {
     mapper: (item) => {
-      for(let i = 1; i < item.length; i++) {
-        if(typeof item[i] !== 'string') continue;
+      for (let i = 1; i < item.length; i++) {
+        if (typeof item[i] !== 'string') continue;
 
         return { key: item[0], value: item[i] };
       }
@@ -189,8 +189,8 @@ obrray.toObject(
     ['nickname', 12, false, 'lx', [27, 1], 147, 98]
   ], {
     mapper: (item, targetObj) => {
-      for(let i = 1; i < item.length; i++) {
-        if(typeof item[i] !== 'string') continue;
+      for (let i = 1; i < item.length; i++) {
+        if (typeof item[i] !== 'string') continue;
 
         targetObj[item[0]] = item[i];
         break;
@@ -367,9 +367,9 @@ obrray.toArray(
 
 Alcides Queiroz Aguiar
 
--	E-mail: alcidesqueiroz <at> gmail
--	Stack Overflow: [http://is.gd/aqanso](http://stackoverflow.com/users/1295666/alcides-queiroz-aguiar)
--	Medium: [@alcidesqueiroz](https://medium.com/@alcidesqueiroz)
+- E-mail: alcidesqueiroz <at> gmail
+- Stack Overflow: [http://is.gd/aqanso](http://stackoverflow.com/users/1295666/alcides-queiroz-aguiar)
+- Medium: [@alcidesqueiroz](https://medium.com/@alcidesqueiroz)
 
 ## License
 
