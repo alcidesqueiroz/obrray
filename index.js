@@ -16,7 +16,7 @@ const toArrayMappingOptions = [
 function objectToEntries(obj) {
   if (Object.entries) return Object.entries(obj);
 
-  return Object.keys(obj).map(key => [key, obj[key]]);
+  return Object.keys(obj).map((key) => [key, obj[key]]);
 }
 
 function isArray(a) {
@@ -33,10 +33,10 @@ function toKeyValueObject(arr) {
 
 function validateKeyValuePair(arr, opts = null) {
   // If custom key-value indexes are passed, we need to adapt our minimum length checking
-  const minimumItemLengthAllowed = isObject(opts) ?
-    Math.max((opts.keyIndex + 1) || 0, (opts.valueIndex + 1) || 0) : 2;
+  const minimumItemLengthAllowed = isObject(opts)
+    ? Math.max((opts.keyIndex + 1) || 0, (opts.valueIndex + 1) || 0) : 2;
 
-  if (arr.some(item => !item || !isArray(item) || item.length < minimumItemLengthAllowed)) {
+  if (arr.some((item) => !item || !isArray(item) || item.length < minimumItemLengthAllowed)) {
     throw new Error('Invalid array supplied. Expected an array of key-value pairs.');
   }
 }
@@ -52,7 +52,7 @@ function validateKey(key, obj) {
 }
 
 function hasMoreThanOneOption(optObj, allowedOpts) {
-  const enabledMappingOptions = objectToEntries(optObj).filter(entry => entry[1]);
+  const enabledMappingOptions = objectToEntries(optObj).filter((entry) => entry[1]);
   if (enabledMappingOptions.length <= 1) return false;
 
   let optionsCount = 0;
@@ -123,17 +123,17 @@ const toObjectStrategies = {
 
 const toArrayStrategies = {
   fromKeys(entries) {
-    return entries.map(item => item[0]);
+    return entries.map((item) => item[0]);
   },
 
   withInvertedKeyAndValuePairs(entries) {
-    return entries.map(item => [item[1], item[0]]);
+    return entries.map((item) => [item[1], item[0]]);
   },
 
   fromMapper(entries, mapper) {
     let mappedItem;
     const arr = [];
-    const props = entries.map(item => toKeyValueObject(item));
+    const props = entries.map((item) => toKeyValueObject(item));
 
     for (let i = 0; i < props.length; i++) {
       mappedItem = mapper(props[i], arr);
@@ -149,7 +149,7 @@ const toArrayStrategies = {
   withKeyAndValueObjects(entries, opts) {
     const { keyProperty = 'key', valueProperty = 'value' } = isObject(opts) ? opts : {};
 
-    return entries.map(item => ({ [keyProperty]: item[0], [valueProperty]: item[1] }));
+    return entries.map((item) => ({ [keyProperty]: item[0], [valueProperty]: item[1] }));
   }
 };
 
@@ -157,8 +157,8 @@ module.exports = {
   toArray(obj, opts = {}) {
     if (isArray(obj)) return obj;
     if (!isObject(obj)) {
-      throw new Error('The first argument supplied for toArray() method is invalid. ' +
-        'Only objects are accepted.');
+      throw new Error('The first argument supplied for toArray() method is invalid. '
+        + 'Only objects are accepted.');
     }
 
     // Checks if only one mapping option was supplied at a time
@@ -191,14 +191,14 @@ module.exports = {
       return toArrayStrategies.withKeyAndValueObjects(entries, opts.toKeyAndValueObjects);
     }
 
-    return entries.map(item => item[1]);
+    return entries.map((item) => item[1]);
   },
 
   toObject(arr, opts = {}) {
     if (isObject(arr)) return arr;
     if (!isArray(arr)) {
-      throw new Error('The first argument supplied for toObject() method is invalid. ' +
-        'Only arrays are accepted.');
+      throw new Error('The first argument supplied for toObject() method is invalid. '
+        + 'Only arrays are accepted.');
     }
 
     // Checks if only one mapping option was supplied at a time
@@ -222,6 +222,6 @@ module.exports = {
       return toObjectStrategies.fromMapper(arr, opts.mapper);
     }
 
-    return Object.assign({}, arr);
+    return { ...arr };
   }
 };

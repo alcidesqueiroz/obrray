@@ -1,4 +1,4 @@
-# obrray [![Build status](https://travis-ci.org/alcidesqueiroz/obrray.svg?branch=master)](https://travis-ci.org/alcidesqueiroz/obrray)
+# obrray [![Build status](https://travis-ci.com/alcidesqueiroz/obrray.svg?branch=master)](https://travis-ci.com/alcidesqueiroz/obrray)
 
 > Convert between objects and arrays in many different ways. Wololoooo!
 
@@ -8,7 +8,7 @@
 
 With npm:
 ```
-$ npm install --save obrray
+$ npm install obrray
 ```
 
 With Yarn:
